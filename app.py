@@ -40,6 +40,14 @@ movies = [
 def movieList():
     return jsonify (movies)
 
+@application.route('/api/movies/<int:movieId>', methods = ["GET"])
+def get_movie_byID(movieId):
+    for movie in movies:
+        if movie["id"] == movieId:
+            return jsonify(movie)
+    error = "Movie with ID: " + str(movieId) + " wasn't found"
+    return Response(json.dumps({"Failure": error}), status=404, mimetype="application/json")
+
 @application.route('/api/movies', methods = ["POST"])
 def add_movie():
     new_movie_data = request.get_json()
