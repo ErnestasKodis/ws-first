@@ -85,7 +85,9 @@ def add_movie():
 
 @application.route("/api/movies/<int:movieId>", methods = ["PUT"])
 def put_movie(movieId):
-    movieId -= 1
+    movie = [movie for movie in movies if movie["id"] == movieId]
+    if len(movie) == 0:
+        return Response(json.dumps({"Error": "Movie doesn't exist"}), status=404, mimetype="application/json")
     new_movie_data = request.get_json()
     if "title" not in new_movie_data or "director" not in new_movie_data or "rating" not in new_movie_data or "release_year" not in new_movie_data:
         error = "Missing "
@@ -101,48 +103,52 @@ def put_movie(movieId):
         return Response(json.dumps({"Failure" : error}),status=400, mimetype="application/json")
     message = ""
     if "title" in new_movie_data:
-        movies[movieId]["title"] = new_movie_data["title"]
+        movie[0]["title"] = new_movie_data["title"]
         message += "title; "
     if "director" in new_movie_data:
-        movies[movieId]["director"] = new_movie_data["director"]
+        movie[0]["director"] = new_movie_data["director"]
         message += "Director; "
     if "rating" in new_movie_data:
-        movies[movieId]["rating"] = new_movie_data["rating"]
+        movie[0]["rating"] = new_movie_data["rating"]
         message  += "Rating; "
     if "release_year" in new_movie_data:
-        movies[movieId]["release_year"] = new_movie_data["release_year"]
+        movie[0]["release_year"] = new_movie_data["release_year"]
         message += "Release year; "
     if "genre" in new_movie_data:
-        movies[movieId]["genre"] = new_movie_data["genre"]
+        movie[0]["genre"] = new_movie_data["genre"]
         message += "genre; "
+    else:
+        movie[0]["genre"] = ""
     message += "have been changed"
-    return Response(json.dumps(movies[movieId]), status=200, mimetype="application/json")
+    return Response(json.dumps(movie), status=200, mimetype="application/json")
 
 @application.route("/api/movies/<int:movieId>", methods = ["PATCH"])
 def patch_movie(movieId):
-    movieId -= 1
+    movie = [movie for movie in movies if movie["id"] == movieId]
+    if len(movie) == 0:
+        return Response(json.dumps({"Error": "Movie doesn't exist"}), status=404, mimetype="application/json")
     new_movie_data = request.get_json()
-    if "title" not in new_movie_data and "director" not in new_movie_data and "rating" not in new_movie_data and "release_year" not in new_movie_data:
+    if "title" not in new_movie_data and "director" not in new_movie_data and "rating" not in new_movie_data and "release_year" not in new_movie_data and "genre" not in new_movie_data:
         error = "Wrong request body"
         return Response(json.dumps({"Failure" : error}),status=400, mimetype="application/json")
     message = ""
     if "title" in new_movie_data:
-        movies[movieId]["title"] = new_movie_data["title"]
+        movie[0]["title"] = new_movie_data["title"]
         message += "title; "
     if "director" in new_movie_data:
-        movies[movieId]["director"] = new_movie_data["director"]
+        movie[0]["director"] = new_movie_data["director"]
         message += "Director; "
     if "rating" in new_movie_data:
-        movies[movieId]["rating"] = new_movie_data["rating"]
+        movie[0]["rating"] = new_movie_data["rating"]
         message  += "Rating; "
     if "release_year" in new_movie_data:
-        movies[movieId]["release_year"] = new_movie_data["release_year"]
+        movie[0]["release_year"] = new_movie_data["release_year"]
         message += "Release year; "
     if "genre" in new_movie_data:
-        movies[movieId]["genre"] = new_movie_data["genre"]
+        movie[0]["genre"] = new_movie_data["genre"]
         message += "genre; "
     message += "have been changed"
-    return Response(json.dumps(movies[movieId]), status=200, mimetype="application/json")
+    return Response(json.dumps(movie), status=200, mimetype="application/json")
 
 @application.route("/api/movies/<int:movieId>", methods = ["DELETE"])
 def delete_movie(movieId):
