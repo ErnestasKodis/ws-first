@@ -33,6 +33,22 @@ An error message will be returned on failure<br />
 Status on success: ```201```<br />
 Status on failure: ```400```<br />
 
+**PUT by movieID**<br />
+localhost:5000/api/movies/<int: movieId> + JSON body<br />
+example body (requires at least one parameter of a movie object):<br />
+```
+{
+    "title": "title",
+    "director": "name of director",
+    "rating": movie_rating,
+    "release_year" : movie_release_year
+}
+```
+Edited object will be returned upon success<br />
+Otherwise an error message will be returned<br />
+Status on success: ```200```<br />
+Status on failure: ```400```<br />
+
 **PATCH by movieID**<br />
 localhost:5000/api/movies/<int: movieId> + JSON body<br />
 example body (requires at least one parameter of a movie object):<br />
@@ -44,7 +60,7 @@ example body (requires at least one parameter of a movie object):<br />
 Edited object will be returned upon success<br />
 Otherwise an error message will be returned<br />
 Status on success: ```200```<br />
-Status on failure: ```404```<br />
+Status on failure: ```400```<br />
 
 
 **DELETE by movieID**<br />
